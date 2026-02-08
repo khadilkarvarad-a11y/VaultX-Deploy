@@ -16,11 +16,18 @@ public class UserController {
 
     @PostMapping("/register")      //first func for register feature i.e /regirste
 
-    public String register(@RequestBody User user)
+    public String register(@RequestBody RegisterDto dto)
     {
-        user.setBalance(0.0);
-        userRepo.save(user);
-        return "Successful";
+    User user = new User();
+    user.setName(dto.getName());
+    user.setUsername(dto.getUsername());
+    user.setEmail(dto.getEmail());
+    user.setPassword(dto.getPassword());
+    user.setRole(dto.getRole());
+    user.setBalance(0.0);
+
+    userRepo.save(user);
+    return "Successful";
     }
 
     @PostMapping("/login")                         //func for login feature
