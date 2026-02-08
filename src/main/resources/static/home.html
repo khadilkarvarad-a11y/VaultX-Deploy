@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaultX – Virtual Banking Platform</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+          --primary:#1f2a8a;
+          --accent:#22c55e;
+          --bg:#cbfae7;
+          --text:#0f172a;
+          --muted:#64748b;
+        }
+
+        *{
+          box-sizing:border-box;
+          margin:0;
+          padding:0;
+        }
+
+        body{
+          font-family:'Inter', sans-serif;
+          background:var(--bg);
+          color:var(--text);
+        }
+
+        /* ================= HERO ================= */
+
+        .hero{
+          position:relative;
+          min-height:75vh;
+          background:
+            linear-gradient(
+              90deg,
+              rgba(15,23,42,.65),
+              rgba(15,23,42,.25)
+            ),
+            url("bg.jpg");
+          background-size:cover;
+          background-position:center;
+          background-attachment:fixed;
+          display:flex;
+          align-items:center;
+          color:white;
+        }
+
+        .hero-content{
+          max-width:1100px;
+          margin:auto;
+          padding:60px 20px;
+          display:grid;
+          grid-template-columns:1.2fr 1fr;
+          gap:40px;
+        }
+
+        .hero h1{
+          font-family:'Space Grotesk', sans-serif;
+          font-size:52px;
+          letter-spacing:-0.5px;
+          margin-bottom:14px;
+        }
+
+        .hero p{
+          font-size:18px;
+          line-height:1.6;
+          max-width:520px;
+          color:rgba(255,255,255,.9);
+        }
+
+        .hero-buttons{
+          margin-top:30px;
+          display:flex;
+          gap:15px;
+        }
+
+        .hero-buttons button{
+          padding:14px 26px;
+          border:none;
+          border-radius:12px;
+          font-weight:600;
+          font-size:15px;
+          cursor:pointer;
+        }
+
+        .btn-primary{
+          background:var(--accent);
+          color:white;
+        }
+
+        .btn-secondary{
+          background:white;
+          color:#0f172a;
+        }
+
+
+
+        /* ================= SECTIONS ================= */
+
+        .section{
+          max-width:1100px;
+          margin:80px auto;
+          padding:0 20px;
+        }
+
+        .section h2{
+          font-family:'Space Grotesk', sans-serif;
+          font-size:30px;
+          margin-bottom:12px;
+        }
+
+        .section p{
+          font-size:15.5px;
+          color:#4b5563;
+          max-width:720px;
+          line-height:1.7;
+        }
+
+        /* ================= CARDS ================= */
+
+        .features{
+          margin-top:40px;
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+          gap:28px;
+        }
+
+        .card{
+          background:white;
+          padding:32px 28px;
+          border-radius:18px;
+          box-shadow:0 20px 40px rgba(0,0,0,.06);
+          position:relative;
+          overflow:hidden;
+          transition:transform .25s ease, box-shadow .25s ease;
+        }
+
+        .card::before{
+          content:"";
+          position:absolute;
+          top:0;
+          left:0;
+          width:100%;
+          height:5px;
+          background:linear-gradient(90deg,var(--accent),var(--primary));
+        }
+
+        .card:hover{
+          transform:translateY(-6px);
+          box-shadow:0 30px 60px rgba(0,0,0,.12);
+        }
+
+        .card h3{
+          font-size:18px;
+          margin-bottom:10px;
+        }
+
+        .card p{
+          font-size:14.5px;
+          line-height:1.6;
+          color:#6b7280;
+        }
+
+        /* ================= HOW IT WORKS ================= */
+
+        .steps{
+          margin-top:40px;
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+          gap:26px;
+        }
+
+        .step{
+          background:white;
+          padding:28px;
+          border-radius:16px;
+          border-left:4px solid var(--primary);
+          box-shadow:0 14px 32px rgba(0,0,0,.05);
+        }
+
+        .step h3{
+          font-size:17px;
+          margin-bottom:8px;
+        }
+
+        .step p{
+          font-size:14.5px;
+          color:#6b7280;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer{
+          margin-top:80px;
+          padding:40px 20px;
+          text-align:center;
+          font-size:13.5px;
+          color:#64748b;
+          border-top:1px solid #e5e7eb;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:800px){
+          .hero-content{
+            grid-template-columns:1fr;
+          }
+          .hero{
+            background-attachment:scroll;
+          }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div>
+            <h1>VaultX</h1>
+            <p>
+                A secure virtual banking platform built using Spring Boot and REST APIs,
+                designed to simulate real-world banking workflows.
+            </p>
+
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="location.href='login.html'">Login</button>
+                <button class="btn-secondary" onclick="location.href='signup.html'">Sign Up</button>
+            </div>
+        </div>
+
+        <!-- empty column for visual balance -->
+        <div></div>
+    </div>
+</section>
+
+<!-- WHY -->
+<section class="section">
+    <h2>Why VaultX?</h2>
+    <p>
+        VaultX was built to understand how real banking systems manage users,
+        transactions, balances, and audit trails — beyond just CRUD operations.
+    </p>
+
+    <div class="features">
+        <div class="card">
+            <h3>💸 Transactions</h3>
+            <p>Deposit, withdraw, and peer-to-peer fund transfers.</p>
+        </div>
+
+        <div class="card">
+            <h3>📄 Passbook</h3>
+            <p>Accurate transaction history with running balance.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛡 Admin Control</h3>
+            <p>User management with activity logging.</p>
+        </div>
+
+        <div class="card">
+            <h3>⚙ Tech Stack</h3>
+            <p>Spring Boot, REST APIs, JPA, HTML, CSS, JavaScript.</p>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+    <h2>How It Works</h2>
+
+    <div class="steps">
+        <div class="step">
+            <h3>1. Authenticate</h3>
+            <p>Users log in as customer or admin.</p>
+        </div>
+
+        <div class="step">
+            <h3>2. Perform Actions</h3>
+            <p>All transactions are validated and processed safely.</p>
+        </div>
+
+        <div class="step">
+            <h3>3. Track Everything</h3>
+            <p>Every action is logged for transparency and auditing.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    Built with Spring Boot • REST APIs • JPA • HTML/CSS/JS<br>
+    Varad Khadilkar
+</footer>
+
+</body>
+</html>

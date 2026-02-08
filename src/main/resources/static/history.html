@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History – VaultX</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+          --primary:#16a34a;
+          --accent:#22c55e;
+          --text:#0f172a;
+          --muted:#64748b;
+          --glass:rgba(255,255,255,.78);
+          --border:rgba(255,255,255,.35);
+        }
+
+        /* Reset */
+        *{margin:0;padding:0;box-sizing:border-box}
+
+        /* ================= BODY ================= */
+
+        body{
+          min-height:100vh;
+          font-family:'Inter',sans-serif;
+          background:
+            linear-gradient(90deg,rgba(15,23,42,.6),rgba(15,23,42,.3)),
+            url("bglogin.jpg"); /* 🔥 change bg here if you want */
+          background-size:cover;
+          background-position:center;
+          background-attachment:fixed;
+          padding:30px;
+          color:var(--text);
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container{
+          max-width:1100px;
+          margin:auto;
+          background:var(--glass);
+          backdrop-filter:blur(16px);
+          -webkit-backdrop-filter:blur(16px);
+          border-radius:22px;
+          border:1px solid var(--border);
+          box-shadow:0 40px 80px rgba(0,0,0,.35);
+          overflow:hidden;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header{
+          padding:28px 32px;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          border-bottom:1px solid rgba(0,0,0,.08);
+        }
+
+        .header h1{
+          font-family:'Space Grotesk',sans-serif;
+          font-size:26px;
+        }
+
+        .btn-back{
+          padding:10px 18px;
+          border-radius:12px;
+          border:none;
+          font-weight:600;
+          cursor:pointer;
+          background:rgba(22,163,74,.15);
+          color:var(--primary);
+          transition:.25s;
+        }
+
+        .btn-back:hover{
+          background:var(--primary);
+          color:white;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content{
+          padding:36px 32px;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-wrapper{
+          overflow-x:auto;
+          background:rgba(255,255,255,.9);
+          border-radius:18px;
+          padding:24px;
+          box-shadow:0 20px 40px rgba(0,0,0,.08);
+        }
+
+        .history-table{
+          width:100%;
+          border-collapse:collapse;
+        }
+
+        .history-table thead{
+          background:linear-gradient(135deg,#065f46,#22c55e);
+          color:white;
+        }
+
+        .history-table th{
+          padding:14px;
+          font-size:13.5px;
+          text-align:left;
+          letter-spacing:.4px;
+        }
+
+        .history-table td{
+          padding:14px;
+          font-size:14px;
+          border-bottom:1px solid #e5e7eb;
+        }
+
+
+
+        .history-table td:first-child{
+          font-weight:600;
+          color:#047857;
+        }
+
+        .date{
+          font-size:12.5px;
+          color:var(--muted);
+          white-space:nowrap;
+        }
+
+        /* ================= EMPTY STATE ================= */
+
+        .history-empty{
+          text-align:center;
+          padding:50px 20px;
+          color:var(--muted);
+          font-size:15px;
+        }
+
+        .history-empty::before{
+          content:"📜";
+          display:block;
+          font-size:44px;
+          margin-bottom:12px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:768px){
+          body{padding:16px}
+          .content{padding:24px 20px}
+          .header{flex-direction:column;gap:12px}
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Transaction History</h1>
+        <button class="btn-back" onclick="goBackToAdmin()">← Back</button>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <div class="table-wrapper">
+            <table class="history-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody id="historyBody">
+                <tr>
+                    <td colspan="3" class="history-empty">Loading history…</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8081';
+    let userId = null;
+
+    function getUserIdFromURL(){
+      const params = new URLSearchParams(window.location.search);
+      const urlUserId = params.get('id');
+      const storedUserId = localStorage.getItem('userId');
+      userId = storedUserId || urlUserId;
+    }
+
+    function goBackToAdmin(){
+      const params = new URLSearchParams();
+      if(userId) params.set('id', userId);
+      params.set('role','admin');
+      window.location.href = `admin.html?${params.toString()}`;
+    }
+
+    async function loadHistories(){
+      try{
+        const res = await fetch(`${API_URL}/histories`);
+        if(!res.ok) throw new Error();
+        const data = await res.json();
+        renderHistories(data);
+      }catch{
+        document.getElementById('historyBody').innerHTML =
+          `<tr><td colspan="3" class="history-empty">Unable to load history</td></tr>`;
+      }
+    }
+
+    function renderHistories(list){
+      const body = document.getElementById('historyBody');
+      if(!list || list.length===0){
+        body.innerHTML =
+          `<tr><td colspan="3" class="history-empty">No history records found</td></tr>`;
+        return;
+      }
+
+      body.innerHTML = list.map(h=>`
+        <tr>
+          <td>#${h.id}</td>
+          <td>${escapeHtml(h.description)}</td>
+          <td class="date">${formatDate(h.date)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function formatDate(d){
+      if(!d) return '';
+      const dt = new Date(d);
+      return isNaN(dt) ? d : dt.toLocaleString();
+    }
+
+    function escapeHtml(str){
+      return str ? str.replace(/[&<>"']/g,c=>(
+        {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]
+      )) : '';
+    }
+
+    window.addEventListener('DOMContentLoaded',()=>{
+      getUserIdFromURL();
+      loadHistories();
+    });
+</script>
+
+</body>
+</html>

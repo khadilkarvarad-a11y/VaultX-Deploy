@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard – VaultX</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+          --primary:#00ad67;
+          --accent:#22c55e;
+          --text:#0f172a;
+          --muted:#64748b;
+          --glass:rgba(255,255,255,.78);
+          --border:rgba(255,255,255,.35);
+        }
+
+        *{box-sizing:border-box;margin:0;padding:0}
+
+        body{
+          min-height:100vh;
+          font-family:'Inter',sans-serif;
+          background:
+            linear-gradient(90deg,rgba(15,23,42,.6),rgba(15,23,42,.3)),
+            url("bglogin.jpg");
+          background-size:cover;
+          background-position:center;
+          background-attachment:fixed;
+          padding:30px;
+          color:var(--text);
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+
+        .container{
+          max-width:1000px;
+          margin:auto;
+          background:var(--glass);
+          backdrop-filter:blur(16px);
+          -webkit-backdrop-filter:blur(16px);
+          border-radius:22px;
+          border:1px solid var(--border);
+          box-shadow:0 40px 80px rgba(0,0,0,.35);
+          overflow:hidden;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header{
+          padding:28px 32px;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          border-bottom:1px solid rgba(0,0,0,.08);
+        }
+
+        .header h1{
+          font-family:'Space Grotesk',sans-serif;
+          font-size:28px;
+        }
+
+        .header p{
+          font-size:14px;
+          color:var(--muted);
+        }
+
+        .logout-btn{
+          padding:10px 20px;
+          border-radius:12px;
+          border:none;
+          font-weight:600;
+          cursor:pointer;
+          background:rgba(31,42,138,.1);
+          color:var(--primary);
+        }
+
+        .logout-btn:hover{
+          background:var(--primary);
+          color:#fff;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content{
+          padding:36px 32px;
+        }
+
+        .dashboard-header{
+          text-align:center;
+          margin-bottom:32px;
+        }
+
+        .dashboard-header h2{
+          font-family:'Space Grotesk',sans-serif;
+          font-size:26px;
+          margin-bottom:6px;
+        }
+
+        .dashboard-header p{
+          font-size:14px;
+          color:var(--muted);
+        }
+
+        /* ================= BALANCE CARD ================= */
+
+       .account-balance{
+  background:linear-gradient(135deg,#065f46,#22c55e);
+  color:white;
+  padding:32px;
+  border-radius:18px;
+  text-align:center;
+  margin-bottom:34px;
+  box-shadow:0 20px 40px rgba(34,197,94,.45);
+}
+
+
+        .account-balance p{
+          font-size:14px;
+          opacity:.9;
+        }
+
+        .balance-amount{
+          font-size:38px;
+          font-weight:700;
+          margin-top:8px;
+        }
+
+        /* ================= ACTION BUTTONS ================= */
+
+.transaction-buttons{
+  display:grid;
+  grid-template-columns:repeat(6, 1fr);
+  gap:18px;
+}
+
+/* Top row (3 buttons, each spans 2 columns) */
+.btn-withdraw{ grid-column:1 / span 2; }
+.btn-deposit{  grid-column:3 / span 2; }
+.btn-transfer{ grid-column:5 / span 2; }
+
+/* Bottom row (2 buttons, each spans 3 columns) */
+.btn-passbook{ grid-column:1 / span 3; }
+.btn-update{   grid-column:4 / span 3; }
+
+
+
+
+/* Base button */
+.btn{
+  padding:18px;
+  border:none;
+  border-radius:16px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+
+/* Hover interaction */
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+/* ================= PRIMARY (Withdraw) ================= */
+/* Risky action → darker + stronger */
+
+.btn-withdraw{
+  background:linear-gradient(135deg,#064e3b,#16a34a);
+  color:white;
+  box-shadow:0 18px 36px rgba(6,95,70,.45);
+}
+
+.btn-withdraw:hover{
+  box-shadow:0 26px 50px rgba(6,95,70,.55);
+}
+
+/* ================= POSITIVE (Deposit) ================= */
+/* Friendly + lighter */
+
+.btn-deposit{
+  background:linear-gradient(135deg,#16a34a,#4ade80);
+  color:#022c22;
+  box-shadow:0 14px 30px rgba(34,197,94,.35);
+}
+
+/* ================= NEUTRAL (Transfer) ================= */
+/* Balanced fintech green */
+
+.btn-transfer{
+  background:linear-gradient(135deg,#047857,#22c55e);
+  color:white;
+  box-shadow:0 14px 30px rgba(16,185,129,.35);
+}
+
+/* ================= SECONDARY (Passbook) ================= */
+/* Glass outline look */
+
+.btn-passbook{
+  background:rgba(255,255,255,.35);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(16,185,129,.45);
+  color:#065f46;
+}
+
+.btn-passbook:hover{
+  background:rgba(255,255,255,.55);
+}
+
+/* ================= UTILITY (Update Profile) ================= */
+/* Quiet, non-primary */
+
+.btn-update{
+  background:#ecfdf5;
+  color:#065f46;
+  border:1px dashed rgba(6,95,70,.35);
+}
+
+.btn-update:hover{
+  background:#d1fae5;
+}
+
+/* Active press */
+.btn:active{
+  transform:translateY(0);
+  box-shadow:none;
+}
+
+        /* ================= MODALS ================= */
+
+        .modal{
+          display:none;
+          position:fixed;
+          inset:0;
+          background:rgba(0,0,0,.55);
+          justify-content:center;
+          align-items:center;
+          z-index:1000;
+        }
+
+        .modal.show{display:flex}
+
+        .modal-content{
+          background:var(--glass);
+          backdrop-filter:blur(14px);
+          border-radius:18px;
+          padding:28px;
+          width:100%;
+          max-width:420px;
+          border:1px solid var(--border);
+        }
+
+        .modal-header{
+          font-size:20px;
+          font-weight:700;
+          margin-bottom:20px;
+        }
+
+        .form-group{margin-bottom:18px}
+
+        .form-group label{
+          display:block;
+          font-size:14px;
+          margin-bottom:6px;
+        }
+
+        .form-group input,
+        .form-group select{
+          width:100%;
+          padding:12px;
+          border-radius:12px;
+          border:1px solid #e5e7eb;
+          font-size:14px;
+        }
+
+        .modal-buttons{
+          display:flex;
+          justify-content:flex-end;
+          gap:12px;
+        }
+
+        .btn-modal{
+          padding:10px 18px;
+          border-radius:12px;
+          border:none;
+          font-weight:600;
+          cursor:pointer;
+        }
+
+        .btn-submit{
+          background:var(--accent);
+          color:white;
+        }
+
+        .btn-cancel{
+          background:#e5e7eb;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .message{
+          display:none;
+          margin-bottom:20px;
+          padding:12px;
+          border-radius:12px;
+          font-size:14px;
+        }
+
+        .message.success{
+          background:#dcfce7;
+          color:#166534;
+        }
+        .message.error{
+          background:#fee2e2;
+          color:#991b1b;
+        }
+        .message.show{display:block}
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:700px){
+          body{padding:16px}
+          .content{padding:26px 22px}
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>VaultX</h1>
+            <p>Virtual Banking Dashboard</p>
+        </div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="content">
+
+        <div class="dashboard-header">
+            <h2 id="welcomeText">Welcome</h2>
+            <p>User ID: <strong><span id="userId">-</span></strong></p>
+        </div>
+
+        <div id="dashMessage" class="message"></div>
+
+        <div class="account-balance">
+            <p>Available Balance</p>
+            <div class="balance-amount">₹ <span id="balance">0.00</span></div>
+        </div>
+
+        <div class="transaction-buttons">
+            <button class="btn btn-withdraw" onclick="openWithdrawModal()">Withdraw</button>
+            <button class="btn btn-deposit" onclick="openDepositModal()">Deposit</button>
+            <button class="btn btn-transfer" onclick="openTransferModal()">Transfer</button>
+            <button class="btn btn-passbook" onclick="goToPassbook()">Passbook</button>
+            <button class="btn btn-update" onclick="openUpdateModal()">Update Profile</button>
+        </div>
+
+    </div>
+</div>
+<div id="depositModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Deposit Funds</div>
+        <form id="depositForm">
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" id="depositAmount" required min="1">
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-modal btn-cancel" onclick="closeDepositModal()">Cancel</button>
+                <button type="submit" class="btn-modal btn-submit">Deposit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="withdrawModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Withdraw Funds</div>
+        <form id="withdrawForm">
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" id="withdrawAmount" required min="1">
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-modal btn-cancel" onclick="closeWithdrawModal()">Cancel</button>
+                <button type="submit" class="btn-modal btn-submit">Withdraw</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="transferModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Transfer Funds</div>
+        <form id="transferForm">
+            <div class="form-group">
+                <label>Recipient Username</label>
+                <input type="text" id="transferUsername" required>
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" id="transferAmount" required min="1">
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-modal btn-cancel" onclick="closeTransferModal()">Cancel</button>
+                <button type="submit" class="btn-modal btn-submit">Transfer</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="updateModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Update Profile</div>
+        <form id="updateForm">
+            <div class="form-group">
+                <label>Field</label>
+                <select id="updateKey" required>
+                    <option value="">Select field</option>
+                    <option value="username">Username</option>
+                    <option value="email">Email</option>
+                    <option value="password">Password</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>New Value</label>
+                <input type="text" id="updateValue" required>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-modal btn-cancel" onclick="closeUpdateModal()">Cancel</button>
+                <button type="submit" class="btn-modal btn-submit">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    const API_URL = 'http://localhost:8081';
+    let userId = null;
+    let role = 'customer';
+    function getUserIdFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        userId = params.get('id');
+        role = params.get('role') || 'customer';
+
+        if (!userId) {
+            window.location.href = 'login.html';
+        }
+    }
+
+    async function loadDashboard() {
+        document.getElementById('userId').textContent = userId;
+
+        try {
+            const res = await fetch(`${API_URL}/get-details/${userId}`);
+            const data = await res.json();
+
+            if (document.getElementById('welcomeText')) {
+                document.getElementById('welcomeText').textContent =
+                    `Welcome ${data.username}`;
+            }
+
+            if (document.getElementById('balance')) {
+                document.getElementById('balance').textContent =
+                    data.balance.toFixed(2);
+            }
+        } catch {
+            showMessage('dashMessage', 'Failed to load dashboard', 'error');
+        }
+    }
+
+    function openWithdrawModal() {
+        document.getElementById('withdrawModal').classList.add('show');
+    }
+
+    function closeWithdrawModal() {
+        document.getElementById('withdrawModal').classList.remove('show');
+        document.getElementById('withdrawForm').reset();
+    }
+
+    function openDepositModal() {
+        document.getElementById('depositModal').classList.add('show');
+    }
+
+    function closeDepositModal() {
+        document.getElementById('depositModal').classList.remove('show');
+        document.getElementById('depositForm').reset();
+    }
+
+    function openTransferModal() {
+        document.getElementById('transferModal').classList.add('show');
+    }
+
+    function closeTransferModal() {
+        document.getElementById('transferModal').classList.remove('show');
+        document.getElementById('transferForm').reset();
+    }
+
+    function showMessage(elementId, message, type) {
+        const messageEl = document.getElementById(elementId);
+        messageEl.textContent = message;
+        messageEl.className = `message ${type} show`;
+        setTimeout(() => {
+            messageEl.classList.remove('show');
+        }, 3000);
+    }
+
+    const withdrawForm = document.getElementById('withdrawForm');
+    if (withdrawForm) {
+        withdrawForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const withdrawData = {
+                id: parseInt(userId),
+                amount: parseFloat(document.getElementById('withdrawAmount').value)
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/withdraw`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(withdrawData)
+                });
+                const result = await response.text();
+
+                if (result && result.toLowerCase().includes('withdrawal')) {
+                    showMessage('dashMessage', 'Withdrawal successful!', 'success');
+                    closeWithdrawModal();
+                    loadDashboard();
+                } else {
+                    showMessage('dashMessage', result || 'Withdrawal failed', 'error');
+                }
+            } catch (error) {
+                showMessage('dashMessage', 'Error processing withdrawal', 'error');
+                console.error(error);
+            }
+        });
+    }
+        function openUpdateModal() {
+           document.getElementById('updateModal').classList.add('show');
+        }
+
+        function closeUpdateModal() {
+            document.getElementById('updateModal').classList.remove('show');
+            document.getElementById('updateForm').reset();
+        }
+
+    const depositForm = document.getElementById('depositForm');
+    if (depositForm) {
+        depositForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const depositData = {
+                id: parseInt(userId),
+                amount: parseFloat(document.getElementById('depositAmount').value)
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/deposit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(depositData)
+                });
+                const result = await response.text();
+
+                if (result && result.toLowerCase().includes('deposit')) {
+                    showMessage('dashMessage', 'Deposit successful!', 'success');
+                    closeDepositModal();
+                    loadDashboard();
+                } else {
+                    showMessage('dashMessage', result || 'Deposit failed', 'error');
+                }
+            } catch (error) {
+                showMessage('dashMessage', 'Error processing deposit', 'error');
+                console.error(error);
+            }
+        });
+    }
+
+    const transferForm = document.getElementById('transferForm');
+    if (transferForm) {
+        transferForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const transferData = {
+                id: parseInt(userId),
+                amount: parseFloat(document.getElementById('transferAmount').value),
+                username: document.getElementById('transferUsername').value
+            };
+
+            if (!transferData.username) {
+                showMessage('dashMessage', 'Enter recipient username.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/transfer`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(transferData)
+                });
+                const result = await response.text();
+
+                if (response.ok && result && result.toLowerCase().includes('successfully')) {
+                    showMessage('dashMessage', 'Transfer successful!', 'success');
+                    closeTransferModal();
+                    loadDashboard();
+                } else {
+                    showMessage('dashMessage', result || 'Transfer failed', 'error');
+                }
+            } catch (error) {
+                showMessage('dashMessage', 'Error processing transfer', 'error');
+                console.error(error);
+            }
+        });
+    }
+
+    function logout() {
+        window.location.href = 'home.html';
+    }
+    function validateUserAccess() {
+    const storedUserId = localStorage.getItem("userId");
+    const storedRole = localStorage.getItem("role") || "customer";
+
+    const params = new URLSearchParams(window.location.search);
+    const urlUserId = params.get("id");
+
+
+    if (!storedUserId) {
+        window.location.href = "login.html";
+        return;
+    }
+
+
+    if (urlUserId && urlUserId !== storedUserId) {
+        alert("Unauthorized access detected!");
+        window.location.href = "login.html";
+        return;
+    }
+
+
+    userId = storedUserId;
+    role = storedRole;
+
+
+    window.history.replaceState({}, document.title, "dashboard.html");
+}
+
+
+    function goToPassbook() {
+        window.location.href =
+            `passbook.html?id=${userId}&role=${encodeURIComponent(role)}`;
+    }
+
+
+   window.addEventListener('DOMContentLoaded', () => {
+    validateUserAccess();
+    loadDashboard();
+});
+
+
+    window.addEventListener('click', (e) => {
+        const withdrawModal = document.getElementById('withdrawModal');
+        const depositModal = document.getElementById('depositModal');
+        const transferModal = document.getElementById('transferModal');
+
+        if (e.target === withdrawModal) withdrawModal.classList.remove('show');
+        if (e.target === depositModal) depositModal.classList.remove('show');
+        if (e.target === transferModal) transferModal.classList.remove('show');
+    });
+
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const key = document.getElementById('updateKey').value;
+            const value = document.getElementById('updateValue').value;
+
+            const updateData = {
+                id: parseInt(userId),
+                key: key,
+                value: value
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/update`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updateData)
+                });
+                const result = await response.text();
+                if (response.ok && result && result.toLowerCase().includes('successfully')) {
+                    showMessage('dashMessage', 'Profile updated successfully!', 'success');
+                    closeUpdateModal();
+                    loadDashboard();
+                } else {
+                    showMessage('dashMessage', result || 'Update failed', 'error');
+                }
+            } catch (error) {
+                showMessage('dashMessage', 'Error updating profile', 'error');
+                console.error('Update error:', error);
+            }
+        });
+
+</script>
+
+</body>
+</html>
+

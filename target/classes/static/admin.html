@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Virtual Banking System</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+          --primary:#11881e;
+          --accent:#22c55e;
+          --text:#0f172a;
+          --muted:#64748b;
+          --border:#e5e7eb;
+        }
+
+    *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    }
+
+    body{
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    background:
+    linear-gradient(
+    90deg,
+    rgba(15,23,42,.6),
+    rgba(15,23,42,.3)
+    ),
+    url("bglogin.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    padding:30px;
+    }
+
+    /* ================= MAIN CONTAINER ================= */
+
+    .container{
+    max-width:1200px;
+    margin:auto;
+    background:rgba(255,255,255,.78);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-radius:22px;
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:
+    0 40px 80px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.4);
+    overflow:hidden;
+    }
+
+    /* ================= HEADER ================= */
+
+    .header{
+    padding:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid rgba(0,0,0,.06);
+    }
+
+    .header-left h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:30px;
+    }
+
+    .header-left p{
+    font-size:14px;
+    color:var(--muted);
+    }
+
+    .header-buttons{
+    display:flex;
+    gap:12px;
+    }
+
+    .btn-header{
+    padding:10px 18px;
+    border-radius:12px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    background:rgba(31,42,138,.1);
+    color:var(--primary);
+    }
+
+    .btn-header:hover{
+    background:var(--primary);
+    color:white;
+    }
+
+    /* ================= CONTENT ================= */
+
+    .content{
+    padding:36px 32px;
+    }
+
+    /* ================= ADMIN HEADER ================= */
+
+    .admin-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:28px;
+    }
+
+    .admin-header h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:26px;
+    }
+
+    .btn-add-user{
+    padding:12px 22px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:14px;
+    font-weight:600;
+    cursor:pointer;
+    }
+
+    .btn-add-user:hover{
+    box-shadow:0 10px 25px rgba(34,197,94,.35);
+    transform:translateY(-2px);
+    }
+
+    /* ================= STATS ================= */
+
+    .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:22px;
+    margin-bottom:34px;
+    }
+
+    .stat-card{
+    background:rgba(255,255,255,.9);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+    }
+
+    .stat-card p{
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:6px;
+    }
+
+    .stat-value{
+    font-size:28px;
+    font-weight:700;
+    }
+
+    /* ================= SEARCH ================= */
+
+    .search-section{
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:28px;
+    }
+
+    .search-box,
+    .filter-box{
+    display:flex;
+    gap:10px;
+    }
+
+    .search-box input,
+    .filter-box select{
+    padding:12px 14px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    font-size:14px;
+    }
+
+    .search-btn{
+    padding:12px 20px;
+    background:var(--primary);
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    }
+
+    /* ================= USERS TABLE ================= */
+
+    .users-section{
+    background:rgba(255,255,255,.9);
+    border-radius:18px;
+    padding:28px;
+    box-shadow:0 20px 40px rgba(0,0,0,.08);
+    }
+
+    .users-section h3{
+    font-size:18px;
+    margin-bottom:18px;
+    display:flex;
+    justify-content:space-between;
+    }
+
+    .users-table{
+    width:100%;
+    border-collapse:collapse;
+    }
+
+    .users-table th{
+    text-align:left;
+    padding:14px;
+    font-size:13px;
+    background:#f8fafc;
+    }
+
+    .users-table td{
+    padding:14px;
+    font-size:14px;
+    border-bottom:1px solid #eee;
+    }
+
+    .users-table tr:hover{
+    background:#f1f5f9;
+    }
+
+    .user-role{
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+    }
+
+    .user-role.customer{
+    background:#dcfce7;
+    color:#166534;
+    }
+
+    .user-role.admin{
+    background:#fee2e2;
+    color:#991b1b;
+    }
+
+    /* ================= MODALS ================= */
+
+    .modal-content,
+    .confirm-content{
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(12px);
+    border-radius:18px;
+    box-shadow:0 40px 80px rgba(0,0,0,.35);
+    }
+
+    /* ================= FOOTER ================= */
+
+    @media(max-width:768px){
+    .admin-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:14px;
+    }
+    }
+    /* ================= MODAL OVERLAY ================= */
+
+.modal,
+.confirm-dialog{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.modal.show,
+.confirm-dialog.show{
+  display:flex;
+}
+
+/* ================= MODAL CONTENT ================= */
+
+.modal-content,
+.confirm-content{
+  width:100%;
+  max-width:420px;
+  background:rgba(255,255,255,.92);
+  border-radius:20px;
+  padding:28px;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.4);
+}
+
+/* ================= MODAL HEADER ================= */
+
+.modal-header{
+  font-family:'Space Grotesk', sans-serif;
+  font-size:20px;
+  margin-bottom:16px;
+}
+
+/* ================= FORM ================= */
+
+.modal-content .form-group{
+  margin-bottom:14px;
+}
+
+.modal-content input,
+.modal-content select{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  font-size:14px;
+}
+
+/* ================= MODAL BUTTONS ================= */
+
+.modal-buttons,
+.modal-buttons-full,
+.confirm-buttons{
+  display:flex;
+  gap:12px;
+  justify-content:flex-end;
+  margin-top:20px;
+}
+
+.modal-buttons-full{
+  justify-content:space-between;
+}
+
+.btn-submit{
+  background:var(--accent);
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.btn-cancel,
+.btn-close-modal,
+.btn-confirm-no{
+  background:#e5e7eb;
+  border:none;
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.btn-confirm-yes{
+  background:#ef4444;
+  color:white;
+  border:none;
+  padding:12px 20px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ================= CONFIRM DIALOG ================= */
+
+.confirm-icon{
+  font-size:32px;
+  margin-bottom:10px;
+}
+
+.confirm-title{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+
+.confirm-text{
+  font-size:14px;
+  color:var(--muted);
+}
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <h1>VBS Admin</h1>
+            <p>Virtual Banking System - Administration Panel</p>
+        </div>
+        <div class="header-buttons">
+            <button class="btn-header" onclick="goToHistory()">History</button>
+            <button class="btn-header" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div id="adminMessage" class="message"></div>
+
+        <div class="admin-header">
+            <h2>Admin Dashboard</h2>
+            <button class="btn-add-user" onclick="openAddUserModal()">
+                ➕ Add New User
+            </button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <p>Total Users</p>
+                <div class="stat-value" id="totalUsers">0</div>
+            </div>
+            <div class="stat-card">
+                <p>Total Balance</p>
+                <div class="stat-value">₹<span id="totalBalance">0</span></div>
+            </div>
+            <div class="stat-card">
+                <p>Average Balance</p>
+                <div class="stat-value">₹<span id="avgBalance">0</span></div>
+            </div>
+            <div class="stat-card">
+                <p>Active Users</p>
+                <div class="stat-value" id="activeUsers">0</div>
+            </div>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by username...">
+                <button class="search-btn" onclick="searchUsers()">🔍 Search</button>
+            </div>
+            <div class="filter-box">
+                <select id="sortBy" onchange="applySort()">
+                    <option value="id">Sort by ID</option>
+                    <option value="name">Sort by Name</option>
+                    <option value="username">Sort by Username</option>
+                    <option value="balance">Sort by Balance</option>
+                </select>
+                <select id="sortOrder" onchange="applySort()">
+                    <option value="asc">Ascending ↑</option>
+                    <option value="desc">Descending ↓</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="users-section">
+            <h3>
+                All Users
+                <span class="user-count">Total: <span id="displayCount">0</span></span>
+            </h3>
+            <div class="responsive-table-wrapper">
+                <table class="users-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Balance</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <div class="empty-state-icon">⏳</div>
+                            <div class="empty-state-text">Loading users...</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginationControls" class="pagination"></div>
+        </div>
+    </div>
+</div>
+
+<!-- View User Modal -->
+<div id="viewUserModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">User Details</div>
+        <div class="user-details" id="userDetailsContent">
+            <!-- User details will be populated here -->
+        </div>
+        <div class="modal-buttons">
+            <button class="btn-modal btn-close-modal" onclick="closeViewUserModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add User Modal -->
+<div id="addUserModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">Add New User</div>
+        <form id="addUserForm" onsubmit="handleAddUser(event)">
+            <div class="form-group">
+                <label for="addName">Full Name *</label>
+                <input type="text" id="addName" name="name" required placeholder="Enter full name">
+            </div>
+            <div class="form-group">
+                <label for="addUsername">Username *</label>
+                <input type="text" id="addUsername" name="username" required placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="addEmail">Email *</label>
+                <input type="email" id="addEmail" name="email" required placeholder="Enter email address">
+            </div>
+            <div class="form-group">
+                <label for="addPassword">Password *</label>
+                <input type="password" id="addPassword" name="password" required placeholder="Enter password">
+            </div>
+            <div class="form-group">
+                <label for="addBalance">Initial Balance *</label>
+                <input type="number" id="addBalance" name="balance" required placeholder="Enter initial balance" min="0" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="addRole">Role *</label>
+                <select id="addRole" name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="customer">Customer</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="modal-buttons-full">
+                <button type="button" class="btn-cancel" onclick="closeAddUserModal()">Cancel</button>
+                <button type="submit" class="btn-submit">Add User</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Confirmation Dialog -->
+<div id="deleteConfirmDialog" class="confirm-dialog">
+    <div class="confirm-content">
+        <div class="confirm-icon">⚠️</div>
+        <div class="confirm-title">Delete User?</div>
+        <div class="confirm-text" id="deleteConfirmText">
+            Are you sure you want to delete this user? This action cannot be undone.
+        </div>
+        <div class="confirm-buttons">
+            <button class="btn-confirm btn-confirm-no" onclick="closeDeleteConfirm()">Cancel</button>
+            <button class="btn-confirm btn-confirm-yes" onclick="deleteUser()">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8081';
+    let userId = null;
+    let allUsers = [];
+    let filteredUsers = [];
+    const itemsPerPage = 10;
+    let currentPage = 1;
+    let currentSortBy = 'id';
+    let currentSortOrder = 'asc';
+
+    // Get user ID and role from URL parameter; restrict access to admin only
+    function getUserIdFromURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    const urlUserId = params.get('id');
+    const urlRole = params.get('role');
+
+    const storedUserId = localStorage.getItem("userId");
+    const storedRole = localStorage.getItem("role");
+
+    userId = storedUserId || urlUserId;
+
+    const role = (storedRole || urlRole || '').toLowerCase();
+
+    if (!userId) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    if (role !== 'admin') {
+        alert("Unauthorized access");
+        window.location.href = 'login.html';
+    }
+}
+
+
+    // Load all users with sorting
+    async function loadAllUsers(sortBy = 'id', order = 'asc') {
+        try {
+            const response = await fetch(`${API_URL}/users?sortBy=${sortBy}&order=${order}`);
+            if (!response.ok) throw new Error('Failed to load users');
+
+            allUsers = await response.json();
+            filteredUsers = [...allUsers];
+            currentSortBy = sortBy;
+            currentSortOrder = order;
+
+            // Update dropdown values
+            document.getElementById('sortBy').value = sortBy;
+            document.getElementById('sortOrder').value = order;
+
+            updateStatistics();
+            displayUsers(filteredUsers);
+        } catch (error) {
+            console.error('Error loading users:', error);
+            showMessage('adminMessage', 'Failed to load users. Make sure backend is running.', 'error');
+            displayErrorState();
+        }
+    }
+
+    // Update statistics
+    function updateStatistics() {
+        const totalUsers = allUsers.length;
+        const totalBalance = allUsers.reduce((sum, user) => sum + user.balance, 0);
+        const avgBalance = totalUsers > 0 ? totalBalance / totalUsers : 0;
+        const activeUsers = allUsers.filter(u => u.balance > 0).length;
+
+        document.getElementById('totalUsers').textContent = totalUsers;
+        document.getElementById('totalBalance').textContent = totalBalance.toFixed(2);
+        document.getElementById('avgBalance').textContent = avgBalance.toFixed(2);
+        document.getElementById('activeUsers').textContent = activeUsers;
+    }
+
+    // Apply sorting from dropdowns
+    function applySort() {
+        const sortBy = document.getElementById('sortBy').value;
+        const order = document.getElementById('sortOrder').value;
+        currentPage = 1;
+        loadAllUsers(sortBy, order);
+    }
+
+    // Search users (username-only via backend)
+    async function searchUsers() {
+        const searchTerm = document.getElementById('searchInput').value.trim();
+
+        // If empty, reload with current sort settings
+        if (!searchTerm) {
+            loadAllUsers(currentSortBy, currentSortOrder);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/users/${encodeURIComponent(searchTerm)}`);
+            if (!response.ok) throw new Error('Search failed');
+
+            const users = await response.json();
+            filteredUsers = users;
+            currentPage = 1;
+            displayUsers(filteredUsers);
+        } catch (error) {
+            console.error('Error searching users:', error);
+            showMessage('adminMessage', 'Failed to search users. Make sure backend is running.', 'error');
+            filteredUsers = [];
+            displayUsers(filteredUsers);
+        }
+    }
+
+    // Display users with pagination
+    function displayUsers(users) {
+        const tableBody = document.getElementById('usersTableBody');
+        const paginationContainer = document.getElementById('paginationControls');
+        const displayCount = document.getElementById('displayCount');
+
+        if (users.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <div class="empty-state-text">No users found</div>
+                    </td>
+                </tr>
+            `;
+            paginationContainer.innerHTML = '';
+            displayCount.textContent = '0';
+            return;
+        }
+
+        displayCount.textContent = users.length;
+
+        // Calculate pagination
+        const totalPages = Math.ceil(users.length / itemsPerPage);
+        const startIdx = (currentPage - 1) * itemsPerPage;
+        const endIdx = startIdx + itemsPerPage;
+        const pageUsers = users.slice(startIdx, endIdx);
+
+        // Display users
+        tableBody.innerHTML = pageUsers.map(user => `
+            <tr>
+                <td><span class="user-id">#${user.id}</span></td>
+                <td><span class="user-name">${user.name}</span></td>
+                <td>${user.username}</td>
+                <td><span class="user-email">${user.email}</span></td>
+                <td>
+                    <span class="user-role ${user.role.toLowerCase()}">
+                        ${user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                    </span>
+                </td>
+                <td><span class="user-balance">₹${user.balance.toFixed(2)}</span></td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-action btn-view" onclick="viewUser(${user.id})">👁️ View</button>
+                        <button class="btn-action btn-delete" onclick="confirmDeleteUser(${user.id}, '${user.name}')">🗑️ Delete</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+
+        // Display pagination
+        if (totalPages > 1) {
+            let paginationHTML = '';
+
+            if (currentPage > 1) {
+                paginationHTML += `<button onclick="goToPage(${currentPage - 1})">← Previous</button>`;
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    paginationHTML += `<button class="active">${i}</button>`;
+                } else if (i <= 3 || i >= totalPages - 2 || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `<button onclick="goToPage(${i})">${i}</button>`;
+                } else if (i === 4 || i === totalPages - 3) {
+                    paginationHTML += `<button disabled>...</button>`;
+                }
+            }
+
+            if (currentPage < totalPages) {
+                paginationHTML += `<button onclick="goToPage(${currentPage + 1})">Next →</button>`;
+            }
+
+            paginationContainer.innerHTML = paginationHTML;
+        }
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        displayUsers(filteredUsers);
+    }
+
+
+    function viewUser(userId) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) return;
+
+        const detailsContent = document.getElementById('userDetailsContent');
+        detailsContent.innerHTML = `
+            <div class="detail-row">
+                <span class="detail-label">ID</span>
+                <span class="detail-value">#${user.id}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Name</span>
+                <span class="detail-value">${user.name}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Username</span>
+                <span class="detail-value">${user.username}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Email</span>
+                <span class="detail-value">${user.email}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Role</span>
+                <span class="detail-value">
+                    <span class="user-role ${user.role.toLowerCase()}">
+                        ${user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                    </span>
+                </span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Current Balance</span>
+                <span class="detail-value">₹${user.balance.toFixed(2)}</span>
+            </div>
+        `;
+
+        document.getElementById('viewUserModal').classList.add('show');
+    }
+
+
+    function closeViewUserModal() {
+        document.getElementById('viewUserModal').classList.remove('show');
+    }
+
+
+    function displayErrorState() {
+        const tableBody = document.getElementById('usersTableBody');
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty-state">
+                    <div class="empty-state-icon">❌</div>
+                    <div class="empty-state-text">Failed to load users</div>
+                </td>
+            </tr>
+        `;
+    }
+
+
+    function showMessage(elementId, message, type) {
+        const messageEl = document.getElementById(elementId);
+        messageEl.textContent = message;
+        messageEl.className = `message ${type} show`;
+        setTimeout(() => {
+            messageEl.classList.remove('show');
+        }, 3000);
+    }
+
+
+    function logout() {
+        window.location.href = 'home.html';
+    }
+
+    function goToHistory() {
+        const params = new URLSearchParams();
+        if (userId) params.set('id', userId);
+        params.set('role', 'admin');
+        window.location.href = `history.html?${params.toString()}`;
+    }
+
+    function openAddUserModal() {
+        document.getElementById('addUserModal').classList.add('show');
+        document.getElementById('addUserForm').reset();
+    }
+
+
+    function closeAddUserModal() {
+        document.getElementById('addUserModal').classList.remove('show');
+        document.getElementById('addUserForm').reset();
+    }
+
+    async function handleAddUser(event) {
+        event.preventDefault();
+
+        const formData = {
+            id: 0,
+            name: document.getElementById('addName').value.trim(),
+            username: document.getElementById('addUsername').value.trim(),
+            email: document.getElementById('addEmail').value.trim(),
+            password: document.getElementById('addPassword').value.trim(),
+            balance: parseFloat(document.getElementById('addBalance').value),
+            role: document.getElementById('addRole').value
+        };
+
+
+        if (!formData.name || !formData.username || !formData.email || !formData.password || isNaN(formData.balance) || !formData.role) {
+            showMessage('adminMessage', 'Please fill all required fields', 'error');
+            return;
+        }
+
+        if (formData.balance < 0) {
+            showMessage('adminMessage', 'Balance cannot be negative', 'error');
+            return;
+        }
+
+        try {
+            if (!userId) {
+                showMessage('adminMessage', 'Admin id missing. Please login as admin.', 'error');
+                return;
+            }
+
+            console.log('Sending user data:', formData);
+            const response = await fetch(`${API_URL}/add/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(errorData || 'Failed to add user');
+            }
+
+            showMessage('adminMessage', 'User added successfully!', 'success');
+            closeAddUserModal();
+            loadAllUsers(currentSortBy, currentSortOrder);
+        } catch (error) {
+            console.error('Error adding user:', error);
+            showMessage('adminMessage', `Error: ${error.message}`, 'error');
+        }
+    }
+
+
+    let userToDeleteId = null;
+
+    function confirmDeleteUser(id, name) {
+        userToDeleteId = id;
+        document.getElementById('deleteConfirmText').textContent =
+            `Are you sure you want to delete "${name}"? This action cannot be undone.`;
+        document.getElementById('deleteConfirmDialog').classList.add('show');
+    }
+
+
+    function closeDeleteConfirm() {
+        document.getElementById('deleteConfirmDialog').classList.remove('show');
+        userToDeleteId = null;
+    }
+
+
+    async function deleteUser() {
+        if (!userToDeleteId) return;
+
+        try {
+            const response = await fetch(`${API_URL}/delete-user/${userToDeleteId}/admin/${userId}`, {
+                method: 'DELETE'
+            });
+
+            const message = await response.text();
+
+            if (!response.ok) {
+                throw new Error(message || 'Failed to delete user');
+            }
+
+            // Check if the response message indicates failure (even with 200 status)
+            if (message.includes('Please empty account to delete') || message.includes('not found')) {
+                showMessage('adminMessage', message, 'error');
+                closeDeleteConfirm();
+                return;
+            }
+
+            showMessage('adminMessage', message || 'User deleted successfully!', 'success');
+            closeDeleteConfirm();
+            loadAllUsers(currentSortBy, currentSortOrder);
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            showMessage('adminMessage', `Error: ${error.message}`, 'error');
+            closeDeleteConfirm();
+        }
+    }
+
+
+    window.addEventListener('DOMContentLoaded', () => {
+        getUserIdFromURL();
+        loadAllUsers();
+    });
+
+    window.addEventListener('click', (e) => {
+        const viewModal = document.getElementById('viewUserModal');
+        const addModal = document.getElementById('addUserModal');
+        const deleteDialog = document.getElementById('deleteConfirmDialog');
+
+        if (e.target === viewModal) {
+            viewModal.classList.remove('show');
+        }
+        if (e.target === addModal) {
+            addModal.classList.remove('show');
+        }
+        if (e.target === deleteDialog) {
+            deleteDialog.classList.remove('show');
+        }
+    });
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchUsers();
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

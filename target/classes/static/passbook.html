@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passbook – VaultX</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+          --primary:#00ad67;
+          --accent:#22c55e;
+          --text:#0f172a;
+          --muted:#64748b;
+          --border:#e5e7eb;
+        }
+
+        *{
+          margin:0;
+          padding:0;
+          box-sizing:border-box;
+        }
+
+        body{
+          font-family:'Inter', sans-serif;
+          min-height:100vh;
+          background:
+            linear-gradient(
+              90deg,
+              rgba(15,23,42,.55),
+              rgba(15,23,42,.25)
+            ),
+            url("passbookbg.jpg");
+          background-size:cover;
+          background-position:center;
+          background-attachment:fixed;
+          padding:30px;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container{
+          max-width:1100px;
+          margin:auto;
+          background:rgba(255,255,255,.78);
+          backdrop-filter:blur(14px);
+          -webkit-backdrop-filter:blur(14px);
+          border-radius:22px;
+          border:1px solid rgba(255,255,255,.35);
+          box-shadow:
+            0 40px 80px rgba(0,0,0,.35),
+            inset 0 1px 0 rgba(255,255,255,.4);
+          overflow:hidden;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header{
+          padding:30px;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          border-bottom:1px solid rgba(0,0,0,.06);
+        }
+
+        .header-left h1{
+          font-family:'Space Grotesk', sans-serif;
+          font-size:28px;
+        }
+
+        .header-buttons{
+          display:flex;
+          gap:12px;
+        }
+
+        .btn-header{
+          padding:10px 18px;
+          border-radius:12px;
+          border:none;
+          font-weight:600;
+          cursor:pointer;
+          background:rgba(31,42,138,.1);
+          color:var(--primary);
+          text-decoration:none;
+        }
+
+        .btn-header:hover{
+          background:var(--primary);
+          color:white;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content{
+          padding:36px 32px;
+        }
+
+        /* ================= PASSBOOK HEADER ================= */
+
+        .passbook-header{
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:30px;
+        }
+
+        .passbook-header h2{
+          font-family:'Space Grotesk', sans-serif;
+          font-size:26px;
+        }
+
+        .balance-card{
+          background:linear-gradient(135deg,var(--primary),#3b82f6);
+          color:white;
+          padding:20px 26px;
+          border-radius:16px;
+          box-shadow:0 20px 40px rgba(0,0,0,.2);
+        }
+
+        .balance-card p{
+          font-size:13px;
+          opacity:.9;
+        }
+
+        .balance-card .amount{
+          font-size:28px;
+          font-weight:700;
+        }
+
+        /* ================= TRANSACTIONS ================= */
+
+        .transactions-section{
+          background:rgba(255,255,255,.9);
+          padding:28px;
+          border-radius:18px;
+          box-shadow:0 20px 40px rgba(0,0,0,.08);
+        }
+
+        .transactions-list{
+          display:flex;
+          flex-direction:column;
+          gap:14px;
+        }
+
+        .transaction-item{
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          padding:18px 22px;
+          border-radius:14px;
+          background:#fff;
+          box-shadow:0 10px 25px rgba(0,0,0,.06);
+          border-left:5px solid var(--primary);
+        }
+
+        .transaction-item.deposit{border-left-color:#22c55e}
+        .transaction-item.withdrawal{border-left-color:#ef4444}
+        .transaction-item.transfer{border-left-color:#3b82f6}
+
+        .transaction-info{
+          display:flex;
+          gap:16px;
+          align-items:center;
+        }
+
+        .transaction-icon{
+          width:44px;
+          height:44px;
+          border-radius:50%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:20px;
+        }
+
+        .deposit .transaction-icon{background:#dcfce7;color:#16a34a}
+        .withdrawal .transaction-icon{background:#fee2e2;color:#dc2626}
+        .transfer .transaction-icon{background:#dbeafe;color:#2563eb}
+
+        .transaction-details .type{
+          font-weight:600;
+        }
+
+        .transaction-details .date{
+          font-size:12px;
+          color:var(--muted);
+        }
+
+        .transaction-right{
+          text-align:right;
+        }
+
+        .transaction-amount{
+          font-size:16px;
+          font-weight:700;
+        }
+
+        .deposit .transaction-amount{color:#16a34a}
+        .withdrawal .transaction-amount{color:#dc2626}
+        .transfer .transaction-amount{color:#2563eb}
+
+        .balance-display{
+          font-size:12px;
+          color:var(--muted);
+        }
+
+        /* ================= PAGINATION ================= */
+
+        .pagination{
+          margin-top:22px;
+          display:flex;
+          justify-content:center;
+          gap:10px;
+        }
+
+        .pagination button{
+          padding:8px 14px;
+          border-radius:10px;
+          border:1px solid var(--border);
+          background:white;
+          cursor:pointer;
+        }
+
+        .pagination button.active{
+          background:var(--primary);
+          color:white;
+          border-color:var(--primary);
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:768px){
+          .passbook-header{
+            flex-direction:column;
+            align-items:flex-start;
+            gap:16px;
+          }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="header-left">
+            <h1>VaultX</h1>
+        </div>
+        <div class="header-buttons">
+            <a id="dashLink" class="btn-header">← Dashboard</a>
+            <button class="btn-header" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="passbook-header">
+            <h2>Your Passbook</h2>
+            <div class="balance-card">
+                <p>Current Balance</p>
+                <div class="amount">₹<span id="currentBalance">0.00</span></div>
+            </div>
+        </div>
+
+        <div class="transactions-section">
+            <div id="transactionsList" class="transactions-list"></div>
+            <div id="paginationControls" class="pagination"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ⚠️ SCRIPT UNCHANGED -->
+<script>
+    const API_URL = 'http://localhost:8081';
+    let userId, role;
+    let transactions = [];
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
+    function getUserIdFromURL(){
+        const p = new URLSearchParams(window.location.search);
+        userId = p.get('id');
+        role = p.get('role') || 'customer';
+        if(!userId) location.href='login.html';
+        document.getElementById('dashLink').href =
+            `dashboard.html?id=${userId}&role=${encodeURIComponent(role)}`;
+    }
+
+    async function loadPassbook(){
+        const r = await fetch(`${API_URL}/passbook/${userId}`);
+        transactions = await r.json();
+        if(transactions.length)
+            document.getElementById('currentBalance').textContent =
+                transactions[transactions.length-1].currBalance.toFixed(2);
+        render();
+    }
+
+    function getType(d){
+        d=d.toLowerCase();
+        if(d.includes('deposit')) return 'deposit';
+        if(d.includes('withdrawal')) return 'withdrawal';
+        return 'transfer';
+    }
+
+    function render(){
+        const list = document.getElementById('transactionsList');
+        const pag = document.getElementById('paginationControls');
+
+        const sorted=[...transactions].sort((a,b)=>new Date(b.date)-new Date(a.date));
+        const totalPages=Math.ceil(sorted.length/itemsPerPage);
+        const slice=sorted.slice((currentPage-1)*itemsPerPage,currentPage*itemsPerPage);
+
+        list.innerHTML=slice.map(t=>{
+            const type = getType(t.description);
+
+            let sign = '-';
+            if(type === 'deposit') sign = '+';
+            else if(type === 'transfer' && t.description.toLowerCase().includes('received'))
+                sign = '+';
+
+            const icon = type==='deposit'?'📥':type==='withdrawal'?'💸':'🔁';
+
+            return `
+            <div class="transaction-item ${type}">
+                <div class="transaction-info">
+                    <div class="transaction-icon">${icon}</div>
+                    <div class="transaction-details">
+                        <div class="type">${t.description}</div>
+                        <div class="date">${new Date(t.date).toLocaleString('en-IN')}</div>
+                    </div>
+                </div>
+                <div class="transaction-right">
+                    <div class="transaction-amount">${sign}₹${t.amount.toFixed(2)}</div>
+                    <div class="balance-display">Balance ₹${t.currBalance.toFixed(2)}</div>
+                </div>
+            </div>`;
+        }).join('');
+
+        pag.innerHTML='';
+        for(let i=1;i<=totalPages;i++){
+            pag.innerHTML+=`<button class="${i===currentPage?'active':''}" onclick="go(${i})">${i}</button>`;
+        }
+    }
+
+    function go(p){currentPage=p;render()}
+    function logout(){location.href='home.html'}
+
+    window.onload=()=>{
+        getUserIdFromURL();
+        loadPassbook();
+    }
+</script>
+
+</body>
+</html>

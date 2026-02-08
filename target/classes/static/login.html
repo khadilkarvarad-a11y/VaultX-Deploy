@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – VaultX</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+          --primary:#1f2a8a;
+          --accent:#22c55e;
+          --bg:#cbfae7;
+          --card:#ffffff;
+          --text:#0f172a;
+          --muted:#64748b;
+          --border:#e5e7eb;
+        }
+
+        *{
+          box-sizing:border-box;
+          margin:0;
+          padding:0;
+        }
+
+        body{
+          min-height:100vh;
+          font-family:'Inter', sans-serif;
+          background:
+            linear-gradient(
+              90deg,
+              rgba(15,23,42,.45),
+              rgba(15,23,42,.25)
+            ),
+            url("bglogin.jpg");
+          background-size:cover;
+          background-position:center;
+          background-attachment:fixed;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          color:var(--text);
+        }
+
+
+
+
+        /* ================= LAYOUT ================= */
+
+        .container{
+          width:100%;
+          max-width:420px;
+
+          /* Glass effect */
+          background: rgba(255, 255, 255, 0.78);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+
+          border-radius:20px;
+
+          /* Subtle depth */
+          box-shadow:
+            0 40px 80px rgba(0,0,0,.35),
+            inset 0 1px 0 rgba(255,255,255,.4);
+
+          /* Soft glass edge */
+          border:1px solid rgba(255,255,255,.35);
+
+          padding:40px 36px;
+        }
+
+
+
+        /* ================= HEADER ================= */
+
+        .brand{
+          text-align:center;
+          margin-bottom:30px;
+        }
+
+        .brand h1{
+          font-family:'Space Grotesk', sans-serif;
+          font-size:34px;
+          margin-bottom:6px;
+        }
+
+        .brand p{
+          font-size:14px;
+          color:var(--muted);
+        }
+
+        /* ================= FORM ================= */
+
+        form{
+          margin-top:10px;
+        }
+
+        .form-group{
+          margin-bottom:18px;
+        }
+
+        .form-group label{
+          display:block;
+          font-size:14px;
+          font-weight:500;
+          margin-bottom:6px;
+        }
+
+        .form-group input,
+        .form-group select{
+          width:100%;
+          padding:14px 14px;
+          border-radius:12px;
+          border:1px solid var(--border);
+          font-size:14.5px;
+          outline:none;
+          transition:border .2s, box-shadow .2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus{
+          border-color:var(--primary);
+          box-shadow:0 0 0 3px rgba(31,42,138,.15);
+        }
+
+        /* ================= BUTTON ================= */
+
+        button{
+          width:100%;
+          margin-top:10px;
+          padding:14px;
+          border:none;
+          border-radius:14px;
+          background:var(--accent);
+          color:white;
+          font-size:15px;
+          font-weight:600;
+          cursor:pointer;
+          transition:transform .2s, box-shadow .2s;
+        }
+
+        button:hover{
+          transform:translateY(-2px);
+          box-shadow:0 10px 25px rgba(34,197,94,.35);
+        }
+
+        /* ================= LINKS ================= */
+
+        .links{
+          margin-top:22px;
+          text-align:center;
+          font-size:14px;
+        }
+
+        .links a{
+          color:var(--primary);
+          text-decoration:none;
+          font-weight:500;
+        }
+
+        .links a:hover{
+          text-decoration:underline;
+        }
+
+        /* ================= MESSAGE ================= */
+
+        .message{
+          display:none;
+          margin-bottom:15px;
+          padding:12px;
+          border-radius:12px;
+          font-size:14px;
+        }
+
+        .message.success{
+          background:#dcfce7;
+          color:#166534;
+        }
+
+        .message.error{
+          background:#fee2e2;
+          color:#991b1b;
+        }
+
+        .message.show{
+          display:block;
+        }
+
+        /* ================= FOOTER ================= */
+
+        .footer{
+          margin-top:28px;
+          text-align:center;
+          font-size:12.5px;
+          color:var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="brand">
+        <h1>VaultX</h1>
+        <p>Secure virtual banking access</p>
+    </div>
+
+    <div id="loginMessage" class="message"></div>
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="loginUsername" placeholder="Enter your username" required>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+        </div>
+
+        <div class="form-group">
+            <label>Role</label>
+            <select id="loginRole" required>
+                <option value="">Select role</option>
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="links">
+        Don’t have an account? <a href="signup.html">Sign up</a><br><br>
+        <a href="home.html">← Back to home</a>
+    </div>
+
+    <div class="footer">
+        Built with Spring Boot & REST APIs<br>
+        Varad Khadilkar
+    </div>
+
+</div>
+
+<script>
+    const API_URL = 'http://localhost:8081';
+
+    function showMessage(msg, type){
+      const el = document.getElementById('loginMessage');
+      el.innerText = msg;
+      el.className = `message ${type} show`;
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+
+      const data = {
+        username: loginUsername.value,
+        password: loginPassword.value,
+        role: loginRole.value
+      };
+
+      try{
+        const res = await fetch(`${API_URL}/login`,{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify(data)
+        });
+
+        const result = (await res.text()).trim();
+
+        if(/^\d+$/.test(result)){
+  showMessage('Login successful! Redirecting…','success');
+
+  localStorage.setItem('userId', result);
+  localStorage.setItem('role', loginRole.value);
+
+  setTimeout(()=>{
+    if(loginRole.value === 'admin'){
+      window.location.href = 'admin.html';
+    } else {
+      window.location.href = 'dashboard.html';
+    }
+  }, 800);
+}
+{
+          showMessage(result,'error');
+        }
+      }catch{
+        showMessage('Server error. Try again later.','error');
+      }
+    });
+</script>
+
+</body>
+</html>
