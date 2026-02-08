@@ -1,5 +1,6 @@
 package com.vbs.demo.controller;
 
+import com.vbs.demo.dto.RegisterDto;
 import com.vbs.demo.dto.DisplayDto;
 import com.vbs.demo.dto.LoginDto;
 import com.vbs.demo.models.User;
