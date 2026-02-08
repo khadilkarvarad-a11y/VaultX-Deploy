@@ -18,6 +18,7 @@ public class UserController {
 
     public String register(@RequestBody User user)
     {
+        user.setBalance(0.0);
         userRepo.save(user);
         return "Successful";
     }
