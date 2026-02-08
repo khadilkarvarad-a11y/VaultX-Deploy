@@ -26,7 +26,7 @@ public class User {
     @Column(nullable = false)
     String role;
     @Column(nullable = false)
-    double balance;
+    double balance=0.0;
 
 
 }
